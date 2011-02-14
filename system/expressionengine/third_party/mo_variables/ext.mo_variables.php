@@ -9,7 +9,7 @@ class Mo_variables_ext
 	public $settings_exist = 'y';
 	public $docs_url = 'http://github.com/rsanchez/mo_variables';
 	
-	public function __construct($settings='')
+	public function __construct($settings = array())
 	{
 		$this->EE = get_instance();
 		
@@ -72,6 +72,11 @@ class Mo_variables_ext
 	
 	public function sessions_end()
 	{
+		if ( ! $this->settings)
+		{
+			return;
+		}
+		
 		foreach (array_keys(array_filter($this->settings)) as $method)
 		{
 			$this->{$method}();
