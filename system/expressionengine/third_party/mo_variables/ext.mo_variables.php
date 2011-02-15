@@ -147,12 +147,12 @@ class Mo_variables_ext
 	
 	private function paginated()
 	{
-		$this->set_global_var('paginated', (count($this->EE->uri->segment_array()) && preg_match('/P\d+/', end($this->EE->uri->segment_array()))) ? '1' : '0');
+		$this->set_global_var('paginated', (count($this->EE->uri->segment_array()) && preg_match('/P\d+/', end($this->EE->uri->segment_array()))) ? '1' : 0);
 	}
 	
 	private function ajax()
 	{
-		$this->set_global_var('ajax', ($this->EE->input->is_ajax_request()) ? '1' : '0');
+		$this->set_global_var('ajax', ($this->EE->input->is_ajax_request()) ? '1' : 0);
 	}
 	
 	private function archive()
