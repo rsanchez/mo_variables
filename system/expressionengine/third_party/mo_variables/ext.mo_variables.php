@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.0';
+	public $version = '1.0.1';
 	public $description = 'Adds more early-parsed global variables to your EE installation.';
 	public $settings_exist = 'y';
 	public $docs_url = 'http://github.com/rsanchez/mo_variables';
@@ -65,6 +65,7 @@ class Mo_variables_ext
 			'segments_from' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'paginated' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'archive' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 		);
 		
 		return $settings;
@@ -147,7 +148,16 @@ class Mo_variables_ext
 	
 	private function paginated()
 	{
-		$this->set_global_var('paginated', (count($this->EE->uri->segment_array()) && preg_match('/P\d+/', end($this->EE->uri->segment_array()))) ? '1' : 0);
+		$paginated = (count($this->EE->uri->segment_array()) > 1 && preg_match('/P(\d+)/', end($this->EE->uri->segment_array()), $match));
+		
+		$this->set_global_var('paginated', $paginated ? '1' : 0);
+		
+		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : '');
+	}
+	
+	private function theme_folder_url()
+	{
+		$this->set_global_var('theme_folder_url', $this->EE->config->item('theme_folder_url'));
 	}
 	
 	private function ajax()
