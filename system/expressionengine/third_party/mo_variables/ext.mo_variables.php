@@ -11,20 +11,27 @@ class Mo_variables_ext
 	
 	public function __construct($settings = array())
 	{
-		$this->EE = get_instance();
+		$this->EE =& get_instance();
 		
 		$this->settings = $settings;
 	}
 	
 	public function activate_extension()
 	{
+		$defaults = $this->settings();
+		
+		foreach ($defaults as &$default)
+		{
+			$default = '1';
+		}
+		
 		$this->EE->db->insert(
 			'extensions',
 			array(
 				'class' => __CLASS__,
 				'method' => 'sessions_end',
 				'hook' => 'sessions_end',
-				'settings' => '',
+				'settings' => serialize($defaults),
 				'priority' => 10,
 				'version' => $this->version,
 				'enabled' => 'y'
@@ -48,8 +55,7 @@ class Mo_variables_ext
 	
 	public function disable_extension()
 	{
-		$this->EE->db->where('class', __CLASS__);
-		$this->EE->db->delete('extensions');
+		$this->EE->db->delete('extensions', array('class' => __CLASS__));
 	}
 	
 	public function settings()
@@ -68,17 +74,34 @@ class Mo_variables_ext
 			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 		);
 		
+		if (version_compare('2.1.5', APP_VER, '<='))
+		{
+			unset($settings['theme_folder_url']);
+		}
+		
 		return $settings;
 	}
 	
 	public function sessions_end()
+	{
+		$this->run();
+	}
+	
+	public function run()
 	{
 		if ( ! $this->settings)
 		{
 			return;
 		}
 		
-		foreach (array_keys(array_filter($this->settings)) as $method)
+		if (version_compare('2.1.5', APP_VER, '<='))
+		{
+			unset($this->settings['theme_folder_url']);
+		}
+		
+		$keys = array_keys(array_filter($this->settings));
+		
+		foreach ($keys as $method)
 		{
 			$this->{$method}();
 		}
