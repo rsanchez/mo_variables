@@ -18,13 +18,20 @@ class Mo_variables_ext
 	
 	public function activate_extension()
 	{
+		$defaults = $this->settings();
+		
+		foreach ($defaults as &$default)
+		{
+			$default = '1';
+		}
+		
 		$this->EE->db->insert(
 			'extensions',
 			array(
 				'class' => __CLASS__,
 				'method' => 'sessions_end',
 				'hook' => 'sessions_end',
-				'settings' => '',
+				'settings' => serialize($defaults),
 				'priority' => 10,
 				'version' => $this->version,
 				'enabled' => 'y'
@@ -72,6 +79,11 @@ class Mo_variables_ext
 	}
 	
 	public function sessions_end()
+	{
+		$this->run();
+	}
+	
+	public function run()
 	{
 		if ( ! $this->settings)
 		{
