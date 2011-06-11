@@ -12,4 +12,5 @@ $lang = array(
 	'paginated' => 'Add Pagination Detect Conditional and Page Offset: {if paginated}, {page_offset}',
 	'archive' => 'Add Archive Detect Conditional (detects presence of year, month, date in URI): {if archive} {if yearly_archive} {if monthly_archive} {if daily_archive}',
 	'theme_folder_url' => 'Add Theme Folder URL: {theme_folder_url}',
+	'current_url' => 'Add Current URL: {current_url}',
 );
