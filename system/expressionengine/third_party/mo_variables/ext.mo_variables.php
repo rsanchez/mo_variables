@@ -72,6 +72,7 @@ class Mo_variables_ext
 			'paginated' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'archive' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			'current_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 		);
 		
 		if (version_compare('2.1.5', APP_VER, '<='))
@@ -181,6 +182,13 @@ class Mo_variables_ext
 	private function theme_folder_url()
 	{
 		$this->set_global_var('theme_folder_url', $this->EE->config->item('theme_folder_url'));
+	}
+	
+	private function current_url()
+	{
+		$this->EE->load->helper('url');
+		
+		$this->set_global_var('current_url', current_url());
 	}
 	
 	private function ajax()
