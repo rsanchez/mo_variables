@@ -20,5 +20,6 @@ Add more early-parsed, global variables to your EE installation.
 * Pagination Detect Conditional and Page Offset: {if paginated}, {page_offset}
 * Archive Detect Conditional (detects presence of year, month, date in URI): {if archive} {if yearly_archive} {if monthly_archive} {if daily_archive}
 * Theme Folder URL: {theme_folder_url}
+* Current Page URL: {current_url}
 
 For the get, post, get_post, and cookie variables, you can use the {embed:xxx:your_key} syntax, which will prevent unparsed tags when there is no key matching "your_key".
