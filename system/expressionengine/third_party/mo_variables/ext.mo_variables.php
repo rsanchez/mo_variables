@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.1';
+	public $version = '1.0.2';
 	public $description = 'Adds more early-parsed global variables to your EE installation.';
 	public $settings_exist = 'y';
 	public $docs_url = 'http://github.com/rsanchez/mo_variables';
