@@ -11,6 +11,7 @@ Add more early-parsed, global variables to your EE installation.
 ## Usage
 
 * Ajax Detect Conditional: {if ajax}
+* Secure SSL/HTTPS Conditional: {if secure}
 * GET: {get:your_key} or {embed:get:your_key}
 * GET and POST: {get_post:your_key} or {embed:get_post:your_key}
 * POST: {post:your_key} or {embed:post:your_key}

@@ -2,6 +2,7 @@
 
 $lang = array(
 	'ajax' => 'Add Ajax Detect Conditional: {if ajax}',
+	'secure' => 'Add Secure SSL/HTTPS Conditional: {if secure}',
 	'get' => 'Add GET: {get:your_key} or {embed:get:your_key}',
 	'get_post' => 'Add GET and POST: {get_post:your_key} or {embed:get_post:your_key}',
 	'post' => 'Add POST: {post:your_key} or {embed:post:your_key}',

@@ -4,10 +4,10 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.2';
+	public $version = '1.0.3';
 	public $description = 'Adds more early-parsed global variables to your EE installation.';
 	public $settings_exist = 'y';
-	public $docs_url = 'http://github.com/rsanchez/mo_variables';
+	public $docs_url = 'https://github.com/rsanchez/mo_variables';
 	
 	public function __construct($settings = array())
 	{
@@ -62,6 +62,7 @@ class Mo_variables_ext
 	{
 		$settings = array(
 			'ajax' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			'secure' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'get' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'get_post' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'post' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
@@ -194,6 +195,11 @@ class Mo_variables_ext
 	private function ajax()
 	{
 		$this->set_global_var('ajax', ($this->EE->input->is_ajax_request()) ? '1' : 0);
+	}
+	
+	private function secure()
+	{
+		$this->set_global_var('secure', (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? '1' : 0);
 	}
 	
 	private function archive()
