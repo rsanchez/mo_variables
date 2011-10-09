@@ -14,4 +14,5 @@ $lang = array(
 	'archive' => 'Add Archive Detect Conditional (detects presence of year, month, date in URI): {if archive} {if yearly_archive} {if monthly_archive} {if daily_archive}',
 	'theme_folder_url' => 'Add Theme Folder URL: {theme_folder_url}',
 	'current_url' => 'Add Current URL: {current_url}',
+	'member_variables' => 'Early Parsed Member Variables (for use as tag paramters): {member_id}, {group_id}, {username}, {screen_name}, {email}',
 );
