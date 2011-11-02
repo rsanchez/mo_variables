@@ -76,7 +76,7 @@ class Mo_variables_ext
 			'archive' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'current_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'member_variables' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			//'member_variables' => array('r', array('1' => 'yes', '0' => 'no'), '0'),//this can cause problems with other addons, scrapped for now
 		);
 		
 		if (version_compare('2.1.5', APP_VER, '<='))
@@ -168,9 +168,9 @@ class Mo_variables_ext
 	
 	protected function paginated()
 	{
-		$this->set_global_var('paginated', count($this->EE->uri->segment_array()) > 1 && preg_match('/P(\d+)/', end($this->EE->uri->segment_array()), $match));
+		$this->set_global_var('paginated', count($this->EE->uri->segment_array()) > 0 && preg_match('/^P(\d+)$/', end($this->EE->uri->segment_array()), $match));
 		
-		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : '');
+		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
 	}
 	
 	protected function theme_folder_url()
@@ -183,6 +183,8 @@ class Mo_variables_ext
 		$this->EE->load->helper('url');
 		
 		$this->set_global_var('current_url', current_url());
+		
+		$this->set_global_var('uri_string', $this->EE->uri->uri_string());
 	}
 	
 	protected function ajax()
