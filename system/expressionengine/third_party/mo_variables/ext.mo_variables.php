@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.5';
+	public $version = '1.0.6';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://github.com/rsanchez/mo_variables';
@@ -233,7 +233,7 @@ class Mo_variables_ext
 	protected function page_tracker()
 	{
 		$variables = array(
-			'current_page' => 0,
+			//'current_page' => 0,
 			'last_page' => 1,
 			'one_page_ago' => 1,
 			'two_pages_ago' => 2,

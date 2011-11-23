@@ -26,6 +26,40 @@ Adds many useful global variables and conditionals to use in your templates.
 
 For the get, post, get_post, and cookie variables, you can use the {embed:xxx:your_key} syntax, which will prevent unparsed tags when there is no key matching "your_key".
 
+## Change Log
+
+#### v1.0.6
+
+-   removed {current_page} variable in Page Tracker, conflicts with the variable of the same name in paginate tag pair (sorry to anyone who used {current_page})
+
+#### v1.0.5
+
+-   fixed bug where if your DB settings were manually altered, this could throw fatal errors
+
+#### v1.0.4
+
+-   added {uri_string} variable
+-   fixed bug when using {if paginated} and no url segments (like on homepage for instance)
+-   added {secure_site_url} variable
+-   added Page Tracker variables
+
+#### v1.0.3
+
+-   added {if secure} conditional
+
+#### v1.0.2
+
+-   added {current_url} variable
+-   removed {theme_folder_url} in EE >= 2.1.5
+
+#### v1.0.1
+
+-   added {page_offset} and {theme_folder_url}
+
+#### v1.0.0
+
+-   initial release
+
 ## Examples
 
 ###Ajax Pagination with graceful degradation using {ajax}
