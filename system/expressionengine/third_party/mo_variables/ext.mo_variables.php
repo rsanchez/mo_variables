@@ -234,7 +234,7 @@ class Mo_variables_ext
 	{
 		$variables = array(
 			//'current_page' => 0,
-			'last_page' => 1,
+			'last_page_visited' => 1,
 			'one_page_ago' => 1,
 			'two_pages_ago' => 2,
 			'three_pages_ago' => 3,
