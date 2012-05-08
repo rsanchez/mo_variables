@@ -171,7 +171,7 @@ class Mo_variables_ext
 	
 	protected function paginated()
 	{
-		$this->set_global_var('paginated', count($this->EE->uri->segment_array()) > 0 && preg_match('/^P(\d+)$/', end($this->EE->uri->segment_array()), $match));
+		$this->set_global_var('paginated', preg_match('#/P(\d+)$#', $this->EE->uri->uri_string(), $match));
 		
 		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
 	}
