@@ -28,6 +28,10 @@ For the get, post, get_post, and cookie variables, you can use the {embed:xxx:yo
 
 ## Change Log
 
+#### v1.0.7
+
+-   fixed bug where {if paginated} did not work with Structure
+
 #### v1.0.6
 
 -   removed {current_page} variable in Page Tracker, conflicts with the variable of the same name in paginate tag pair (sorry to anyone who used {current_page})
