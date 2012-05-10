@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.6';
+	public $version = '1.0.7';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://github.com/rsanchez/mo_variables';
@@ -171,7 +171,9 @@ class Mo_variables_ext
 	
 	protected function paginated()
 	{
-		$this->set_global_var('paginated', count($this->EE->uri->segment_array()) > 0 && preg_match('/^P(\d+)$/', end($this->EE->uri->segment_array()), $match));
+		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : $this->EE->uri->uri_string();
+
+		$this->set_global_var('paginated', preg_match('#/P(\d+)/?$#', $uri_string, $match));
 		
 		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
 	}
