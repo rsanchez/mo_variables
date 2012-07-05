@@ -9,7 +9,21 @@ class Mo_variables_ext
 	public $settings_exist = 'y';
 	public $docs_url = 'https://github.com/rsanchez/mo_variables';
 	
-	protected $session;
+	protected $defaults = array(
+		'ajax',
+		'secure',
+		'get',
+		'get_post',
+		'post',
+		'cookie',
+		'page_tracker',
+		'reverse_segments',
+		'segments_from',
+		'paginated',
+		'archive',
+		'current_url',
+		'member_variables',
+	);
 	
 	public function __construct($settings = array())
 	{
@@ -20,23 +34,46 @@ class Mo_variables_ext
 	
 	public function activate_extension()
 	{
-		$defaults = $this->settings();
-		
-		foreach ($defaults as &$default)
+		//get all the default settings as enabled
+		if (function_exists('array_fill_keys'))
 		{
-			$default = '1';
+			$settings = array_fill_keys($this->defaults, '1');
 		}
+		else
+		{
+			$settings = array();
+			
+			foreach ($this->defaults as $key)
+			{
+				$settings[$key] = '1';
+			}
+		}
+		
+		$settings = serialize($settings);
 		
 		$this->EE->db->insert(
 			'extensions',
 			array(
 				'class' => __CLASS__,
-				'method' => 'sessions_end',
-				'hook' => 'sessions_end',
-				'settings' => serialize($defaults),
+				'method' => 'run',
+				'hook' => 'template_fetch_template',
+				'settings' => $settings,
 				'priority' => 10,
 				'version' => $this->version,
-				'enabled' => 'y'
+				'enabled' => 'y',
+			)
+		);
+		
+		$this->EE->db->insert(
+			'extensions',
+			array(
+				'class' => __CLASS__,
+				'method' => 'cleanup',
+				'hook' => 'template_post_parse',
+				'settings' => $settings,
+				'priority' => 10,
+				'version' => $this->version,
+				'enabled' => 'y',
 			)
 		);
 	}
@@ -46,6 +83,42 @@ class Mo_variables_ext
 		if ( ! $current || $current === $this->version)
 		{
 			return FALSE;
+		}
+		
+		if (version_compare($current, '1.0.7', '<='))
+		{
+			$this->EE->db->update(
+				'extensions',
+				array(
+					'method' => 'run',
+					'hook' => 'template_fetch_template',
+				),
+				array(
+					'class' => __CLASS__
+				)
+			);
+			
+			$query = $this->EE->db->select('settings')
+						->where('class', __CLASS__)
+						->get('extensions');
+			
+			if ($query->num_rows() !== 0)
+			{
+				$this->EE->db->insert(
+					'extensions',
+					array(
+						'class' => __CLASS__,
+						'method' => 'cleanup',
+						'hook' => 'template_post_parse',
+						'settings' => $query->row('settings'),
+						'priority' => 10,
+						'version' => $this->version,
+						'enabled' => 'y',
+					)
+				);
+				
+				$query->free_result();
+			}
 		}
 		
 		$this->EE->db->update(
@@ -62,50 +135,48 @@ class Mo_variables_ext
 	
 	public function settings()
 	{
-		$settings = array(
-			'ajax' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'secure' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'get' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'get_post' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'post' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'cookie' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'page_tracker' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'reverse_segments' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'segments_from' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'paginated' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'archive' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			'current_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
-			//'member_variables' => array('r', array('1' => 'yes', '0' => 'no'), '0'),//this can cause problems with other addons, scrapped for now
-		);
+		$setting = array('r', array('1' => 'yes', '0' => 'no'), '0');
 		
-		if (version_compare('2.1.5', APP_VER, '<='))
+		if (function_exists('array_fill_keys'))
 		{
-			unset($settings['theme_folder_url']);
+			$settings = array_fill_keys($this->defaults, $setting);
+		}
+		else
+		{
+			$settings = array();
+			
+			foreach ($this->defaults as $key)
+			{
+				$settings[$key] = $setting;
+			}
 		}
 		
 		return $settings;
 	}
 	
-	public function sessions_end(&$session)
+	/**
+	 * Add all the global variables specified in $this->settings
+	 * 
+	 * @return void
+	 */
+	public function run($row)
 	{
-		$this->session =& $session;
+		static $run_once;
 		
-		$this->run();
-	}
-	
-	public function run()
-	{
+		if ( ! is_null($run_once))
+		{
+			return;
+		}
+		
+		$run_once = TRUE;
+		
 		if ( ! $this->settings)
 		{
 			return;
 		}
 		
-		if (version_compare('2.1.5', APP_VER, '<='))
-		{
-			unset($this->settings['theme_folder_url']);
-		}
-		
+		//remove settings that are zero and then loop through
+		//the remaining settings
 		$keys = array_keys(array_filter($this->settings));
 		
 		foreach ($keys as $method)
@@ -117,6 +188,50 @@ class Mo_variables_ext
 		}
 	}
 	
+	/**
+	 * Clean up unparsed variables
+	 * 
+	 * @param string $final_template the template content after parsing
+	 * @param bool $sub            whether or not the template is an embed
+	 * 
+	 * @return string the final template content
+	 */
+	public function cleanup($final_template, $sub)
+	{
+		//don't parse this stuff in embeds
+		if ($sub)
+		{
+			return $final_template;
+		}
+		
+		if ($this->EE->extensions->last_call !== FALSE)
+		{
+			$final_template = $this->EE->extensions->last_call;
+		}
+		
+		if (preg_match_all('/{(get|post|get_post|cookie):(.*?)}/', $final_template, $matches))
+		{
+			foreach ($matches[0] as $destroy)
+			{
+				$final_template = str_replace($destroy, '', $final_template);
+			}
+		}
+		
+		return $final_template;
+	}
+	
+	/**
+	 * Set Global Variable
+	 * 
+	 * @param string|array $key       the key/index/tag of the variable, or an array of key/value pairs of multiple variables
+	 * @param string $value     the value of the variable, or the tag prefix if the first arg is an array
+	 * @param bool $xss_clean whether or not to clean (used for GET/POST/COOKIE arrays)
+	 * @param bool $embed     whether or not to add the embed: prefix
+	 * @param string $separator change the default colon : separator between prefix and key
+	 * @param string $prefix    a prefix to add to the key/index/tag
+	 * 
+	 * @return void
+	 */
 	protected function set_global_var($key, $value = '', $xss_clean = FALSE, $embed = FALSE, $separator = ':', $prefix = '')
 	{
 		if (is_array($key))
@@ -149,40 +264,72 @@ class Mo_variables_ext
 		}
 	}
 	
+	/**
+	 * Set variables from the $_GET array
+	 * 
+	 * @return void
+	 */
 	protected function get()
 	{
 		$this->set_global_var($_GET, 'get', TRUE, TRUE);
 	}
 	
+	/**
+	 * Set variables from the $_GET and $_POST arrays
+	 * 
+	 * @return void
+	 */
 	protected function get_post()
 	{
 		$this->set_global_var(array_merge($_GET, $_POST), 'get_post', TRUE, TRUE);
 	}
 	
+	
+	/**
+	 * Set variables from the $_POST array
+	 * 
+	 * @return void
+	 */
 	protected function post()
 	{
 		$this->set_global_var($_POST, 'post', TRUE, TRUE);
 	}
 	
+	
+	/**
+	 * Set variables from the $_COOKIE array
+	 * 
+	 * @return void
+	 */
 	protected function cookie()
 	{
 		$this->set_global_var($_COOKIE, 'cookie', TRUE, TRUE);
 	}
 	
+	
+	/**
+	 * Set the {if paginated}, {if not_paginated} and {page_offset variables}
+	 * 
+	 * @return void
+	 */
 	protected function paginated()
 	{
 		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : $this->EE->uri->uri_string();
 
-		$this->set_global_var('paginated', preg_match('#/P(\d+)/?$#', $uri_string, $match));
+		$paginated = (bool) preg_match('#/P(\d+)/?$#', $uri_string, $match);
+
+		$this->set_global_var('paginated', $paginated);
+
+		$this->set_global_var('not_paginated', ! $paginated);
 		
 		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
 	}
 	
-	protected function theme_folder_url()
-	{
-		$this->set_global_var('theme_folder_url', $this->EE->config->item('theme_folder_url'));
-	}
-	
+	/**
+	 * Set the {current_url} and {uri_string} variables
+	 * 
+	 * @return void
+	 */
 	protected function current_url()
 	{
 		$this->EE->load->helper('url');
@@ -192,46 +339,85 @@ class Mo_variables_ext
 		$this->set_global_var('uri_string', $this->EE->uri->uri_string());
 	}
 	
+	/**
+	 * Set the {if ajax} and {if not_ajax} variables
+	 * 
+	 * @return void
+	 */
 	protected function ajax()
 	{
 		$this->set_global_var('ajax', $this->EE->input->is_ajax_request());
+		
+		$this->set_global_var('not_ajax', ! $this->EE->input->is_ajax_request());
 	}
 	
+	/**
+	 * Set the {if secure}, {if not_secure} and {secure_site_url} variables
+	 * 
+	 * @return void
+	 */
 	protected function secure()
 	{
-		$this->set_global_var('secure', isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+		$secure = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off';
+		
+		$this->set_global_var('secure', $secure);
+		
+		$this->set_global_var('not_secure', ! $secure);
 		
 		$this->set_global_var('secure_site_url', str_replace('http://', 'https://', $this->EE->config->item('site_url')));
 	}
 	
+	/**
+	 * Set the {if archive}, {if daily_archive}, {if monthly_archive}, {if yearly_archive},
+	 * {if not_archive}, {if not_daily_archive}, {if not_monthy_archive} and
+	 * {if not_yearly_archive} variables
+	 * 
+	 * @return void
+	 */
 	protected function archive()
 	{
 		$archive = array(
-			'archive' => 0,
-			'daily_archive' => 0,
-			'monthly_archive' => 0,
-			'yearly_archive' => 0
+			'archive' => FALSE,
+			'daily_archive' => FALSE,
+			'monthly_archive' => FALSE,
+			'yearly_archive' => FALSE,
+			'not_archive' => TRUE,
+			'not_daily_archive' => TRUE,
+			'not_monthly_archive' => TRUE,
+			'not_yearly_archive' => TRUE,
 		);
 		
 		if (preg_match('#/\d{4}/\d{2}/\d{2}/?$#', $this->EE->uri->uri_string()))
 		{
-			$archive['archive'] = '1';
-			$archive['daily_archive'] = '1';
+			$archive['archive'] = TRUE;
+			$archive['daily_archive'] = TRUE;
+			$archive['not_archive'] = FALSE;
+			$archive['not_daily_archive'] = FALSE;
 		}
 		else if (preg_match('#/\d{4}/\d{2}/?$#', $this->EE->uri->uri_string()))
 		{
-			$archive['archive'] = '1';
-			$archive['monthly_archive'] = '1';
+			$archive['archive'] = TRUE;
+			$archive['monthly_archive'] = TRUE;
+			$archive['not_archive'] = FALSE;
+			$archive['not_monthly_archive'] = FALSE;
 		}
 		else if (preg_match('#/\d{4}/?$#', $this->EE->uri->uri_string()))
 		{
-			$archive['archive'] = '1';
-			$archive['yearly_archive'] = '1';
+			$archive['archive'] = TRUE;
+			$archive['yearly_archive'] = TRUE;
+			$archive['not_archive'] = FALSE;
+			$archive['not_yearly_archive'] = FALSE;
 		}
 		
 		$this->set_global_var($archive, FALSE, FALSE);
 	}
 	
+	/**
+	 * Set the {last_page_visited}, {one_pages_ago}, {two_pages_ago},
+	 * {three_pages_ago}, {four_pages_ago} and {five_pages_ago} variables
+	 * 
+	 * @return void
+	 */
 	protected function page_tracker()
 	{
 		$variables = array(
@@ -243,9 +429,6 @@ class Mo_variables_ext
 			'four_pages_ago' => 4,
 			'five_pages_ago' => 5,
 		);
-		
-		//Functions::fetch_site_index won't work without this
-		$this->EE->session =& $this->session;
 		
 		foreach ($variables as $variable => $tracker)
 		{
@@ -267,6 +450,11 @@ class Mo_variables_ext
 		}
 	}
 	
+	/**
+	 * Set the {rev_segment_X} variables
+	 * 
+	 * @return void
+	 */
 	protected function reverse_segments()
 	{
 		$reverse_segments = array_reverse($this->EE->uri->segment_array());
@@ -277,6 +465,11 @@ class Mo_variables_ext
 		}
 	}
 	
+	/**
+	 * Set the {segments_from_X} variables
+	 * 
+	 * @return void
+	 */
 	protected function segments_from()
 	{
 		for ($i = 1; $i <= 12; $i++)
@@ -285,6 +478,11 @@ class Mo_variables_ext
 		}
 	}
 	
+	/**
+	 * Set the member variables as early-parsed
+	 * 
+	 * @return void
+	 */
 	protected function member_variables()
 	{
 		$variables = array(
@@ -305,15 +503,18 @@ class Mo_variables_ext
 			'total_forum_replies',
 		);
 		
-		foreach ($variables as $variable)
+		foreach ($variables as $key)
 		{
-			if (isset($this->session->userdata[$variable]))
-			{
-				$this->set_global_var($variable, $this->session->userdata[$variable]);
-				
-				$this->set_global_var('logged_in_'.$variable, $this->session->userdata[$variable]);
-			}
+			$value = isset($this->EE->session->userdata[$key]) ? $this->EE->session->userdata[$key] : '';
+			
+			$this->set_global_var('logged_in_'.$key, $value);
 		}
+	}
+	
+	//for legacy purposes, so we don't break updates
+	public function sessions_end()
+	{
+		//do nothing
 	}
 }
 
