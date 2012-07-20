@@ -23,7 +23,10 @@ class Mo_variables_ext
 		'archive',
 		'current_url',
 		'member_variables',
+		'member_group_conditionals',
 	);
+	
+	protected $template_data = '';
 	
 	public function __construct($settings = array())
 	{
@@ -174,6 +177,8 @@ class Mo_variables_ext
 		{
 			return;
 		}
+		
+		$this->template_data = $row['template_data'];
 		
 		//remove settings that are zero and then loop through
 		//the remaining settings
@@ -508,6 +513,51 @@ class Mo_variables_ext
 			$value = isset($this->EE->session->userdata[$key]) ? $this->EE->session->userdata[$key] : '';
 			
 			$this->set_global_var('logged_in_'.$key, $value);
+		}
+	}
+	
+	/**
+	 * Set the {if in_group(1|2|3)} and {if not_in_group(1|2|3)} early-parsed conditionals
+	 * 
+	 * @return void
+	 */
+	protected function member_group_conditionals()
+	{
+		if (preg_match_all('/(not_)?in_group\(([\042\047]?)(.*?)\\1\)/', $this->template_data, $matches))
+		{
+			foreach ($matches[3] as $i => $groups)
+			{
+				$full_match = $matches[0][$i];
+
+				//so you can use pipe-delimited 1|2|3 global variables
+				if (strpos('{', $groups) !== FALSE)
+				{
+					foreach ($this->EE->config->_global_vars as $key => $value)
+					{
+						if (strpos('{'.$key.'}', $groups) !== FALSE)
+						{
+							$groups = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $groups);
+							$full_match = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $full_match);
+						}
+					}
+				}
+				
+				$in_group = in_array($this->EE->session->userdata('group_id'), explode('|', $groups));
+				
+				$not = $match[1];
+				
+				// sigh
+				$key = str_replace('|', '\|', $full_match);
+				
+				if ($not)
+				{
+					$this->set_global_var($key, ! $in_group);
+				}
+				else
+				{
+					$this->set_global_var($key, $in_group);
+				}
+			}
 		}
 	}
 	
