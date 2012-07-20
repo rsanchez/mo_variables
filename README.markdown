@@ -29,6 +29,10 @@ Adds many useful global variables and conditionals to use in your templates.
 
 ## Change Log
 
+#### v1.0.9
+
+-	added {if in_group(1|2|3)} and {if not_in_group(1|2|3)} conditionals
+
 #### v1.0.8
 
 -   changed hooks used from sessions_end to template_fetch_template, thereby changing EE version requirement to 2.4+
