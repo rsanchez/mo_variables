@@ -530,11 +530,11 @@ class Mo_variables_ext
 				$full_match = $matches[0][$i];
 
 				//so you can use pipe-delimited 1|2|3 global variables
-				if (strpos('{', $groups) !== FALSE)
+				if (strpos($groups, '{') !== FALSE)
 				{
 					foreach ($this->EE->config->_global_vars as $key => $value)
 					{
-						if (strpos('{'.$key.'}', $groups) !== FALSE)
+						if (strpos($groups, '{'.$key.'}') !== FALSE)
 						{
 							$groups = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $groups);
 							$full_match = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $full_match);
