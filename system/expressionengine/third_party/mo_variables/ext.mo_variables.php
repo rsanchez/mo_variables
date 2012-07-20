@@ -4,10 +4,10 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.8';
+	public $version = '1.0.9';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
-	public $docs_url = 'https://github.com/rsanchez/mo_variables';
+	public $docs_url = 'https://git.io/mo';
 	
 	protected $defaults = array(
 		'ajax',
