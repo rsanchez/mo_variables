@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.0.9';
+	public $version = '1.1.0';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -319,15 +319,31 @@ class Mo_variables_ext
 	 */
 	protected function paginated()
 	{
-		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : $this->EE->uri->uri_string();
-
-		$paginated = (bool) preg_match('#/P(\d+)/?$#', $uri_string, $match);
-
-		$this->set_global_var('paginated', $paginated);
-
-		$this->set_global_var('not_paginated', ! $paginated);
+		$this->EE->load->helper('url');
 		
-		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
+		//fix for structure/freebie and other addons that manipulate Uri::uri_string()
+		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : '/'.$this->EE->uri->uri_string();
+		
+		if (preg_match('#/P(\d+)/?$#', $uri_string, $match))
+		{
+			$this->set_global_var('paginated', TRUE);
+	
+			$this->set_global_var('not_paginated', FALSE);
+			
+			$this->set_global_var('page_offset', $match[1]);
+			
+			$this->set_global_var('pagination_base_url', substr(current_url(), 0, -strlen($match[0])));
+		}
+		else
+		{
+			$this->set_global_var('paginated', FALSE);
+	
+			$this->set_global_var('not_paginated', TRUE);
+			
+			$this->set_global_var('page_offset', 0);
+			
+			$this->set_global_var('pagination_base_url', current_url());
+		}
 	}
 	
 	/**
