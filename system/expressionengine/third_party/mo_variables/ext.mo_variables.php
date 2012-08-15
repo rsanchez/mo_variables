@@ -164,15 +164,6 @@ class Mo_variables_ext
 	 */
 	public function run($row)
 	{
-		static $run_once;
-		
-		if ( ! is_null($run_once))
-		{
-			return;
-		}
-		
-		$run_once = TRUE;
-		
 		if ( ! $this->settings)
 		{
 			return;
