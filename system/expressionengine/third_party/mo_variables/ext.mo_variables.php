@@ -25,6 +25,12 @@ class Mo_variables_ext
 		'member_variables',
 		'member_group_conditionals',
 	);
+
+	//only these methods will be run more than once,
+	//eg. in embedded templates
+	protected $run_multiple = array(
+		'member_group_conditionals',
+	);
 	
 	protected $template_data = '';
 	
@@ -179,6 +185,14 @@ class Mo_variables_ext
 		{
 			if (method_exists($this, $method))
 			{
+				if ($this->EE->session->cache(__CLASS__, $method) && ! in_array($method, $this->run_multiple))
+				{
+					//don't run this method on subsequent runs
+					continue;
+				}
+				
+				$this->EE->session->set_cache(__CLASS__, $method, TRUE);
+				
 				$this->{$method}();
 			}
 		}
