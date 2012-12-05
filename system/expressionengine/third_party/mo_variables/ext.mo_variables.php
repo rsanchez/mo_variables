@@ -174,6 +174,10 @@ class Mo_variables_ext
 		{
 			return;
 		}
+
+		$this->uri_string = isset($this->EE->config->_global_vars['freebie_original_uri'])
+			? $this->EE->config->_global_vars['freebie_original_uri']
+			: $this->EE->uri->uri_string();
 		
 		$this->template_data = $row['template_data'];
 		
@@ -413,21 +417,21 @@ class Mo_variables_ext
 			'not_yearly_archive' => TRUE,
 		);
 		
-		if (preg_match('#/\d{4}/\d{2}/\d{2}/?$#', $this->EE->uri->uri_string()))
+		if (preg_match('#/\d{4}/\d{2}/\d{2}/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['daily_archive'] = TRUE;
 			$archive['not_archive'] = FALSE;
 			$archive['not_daily_archive'] = FALSE;
 		}
-		else if (preg_match('#/\d{4}/\d{2}/?$#', $this->EE->uri->uri_string()))
+		else if (preg_match('#/\d{4}/\d{2}/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['monthly_archive'] = TRUE;
 			$archive['not_archive'] = FALSE;
 			$archive['not_monthly_archive'] = FALSE;
 		}
-		else if (preg_match('#/\d{4}/?$#', $this->EE->uri->uri_string()))
+		else if (preg_match('#/\d{4}/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['yearly_archive'] = TRUE;
