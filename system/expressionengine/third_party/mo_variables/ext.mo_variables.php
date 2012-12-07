@@ -373,7 +373,7 @@ class Mo_variables_ext
 	}
 	
 	/**
-	 * Set the {if secure}, {if not_secure} and {secure_site_url} variables
+	 * Set the {if secure}, {if not_secure}, {insecure_site_url}, {secure_site_url} variables
 	 * 
 	 * @return void
 	 */
@@ -386,6 +386,8 @@ class Mo_variables_ext
 		$this->set_global_var('not_secure', ! $secure);
 		
 		$this->set_global_var('secure_site_url', str_replace('http://', 'https://', $this->EE->config->item('site_url')));
+		
+		$this->set_global_var('insecure_site_url', str_replace('https://', 'http://',$this->EE->config->item('site_url')));
 	}
 	
 	/**
