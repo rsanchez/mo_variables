@@ -379,7 +379,7 @@ class Mo_variables_ext
 	 */
 	protected function secure()
 	{
-		$secure = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off';
+		$secure = !empty($_SERVER['HTTPS']);
 		
         $this->set_global_var('secure', $secure);
          
