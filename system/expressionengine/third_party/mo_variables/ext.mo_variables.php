@@ -381,13 +381,13 @@ class Mo_variables_ext
 	{
 		$secure = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off';
 		
-		$this->set_global_var('secure', $secure);
-		
-		$this->set_global_var('not_secure', ! $secure);
-		
-		$this->set_global_var('secure_site_url', str_replace('http://', 'https://', $this->EE->config->item('site_url')));
-		
-		$this->set_global_var('insecure_site_url', str_replace('https://', 'http://',$this->EE->config->item('site_url')));
+        $this->set_global_var('secure', $secure);
+         
+        $this->set_global_var('not_secure', ! $secure);
+         
+        $this->set_global_var('secure_site_url', preg_replace("/^http[s]?:/", "https:", $this->EE->config->item('site_url')));
+        
+        $this->set_global_var('insecure_site_url', preg_replace("/^http[s]?:/", "http:", $this->EE->config->item('site_url')));
 	}
 	
 	/**
