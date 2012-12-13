@@ -341,7 +341,7 @@ class Mo_variables_ext
 			
 			$this->set_global_var('page_offset', $match[1]);
 			
-			$this->set_global_var('pagination_base_url', substr(current_url(), 0, -strlen($match[0])));
+			$this->set_global_var('pagination_base_url', substr($this->EE->functions->create_url($uri_string), 0, -strlen($match[0])));
 		}
 		else
 		{
@@ -351,7 +351,7 @@ class Mo_variables_ext
 			
 			$this->set_global_var('page_offset', 0);
 			
-			$this->set_global_var('pagination_base_url', current_url());
+			$this->set_global_var('pagination_base_url', $this->EE->functions->create_url($uri_string));
 		}
 	}
 	
