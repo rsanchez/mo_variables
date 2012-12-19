@@ -340,6 +340,8 @@ class Mo_variables_ext
 			$this->set_global_var('not_paginated', FALSE);
 			
 			$this->set_global_var('page_offset', $match[1]);
+            
+			$this->set_global_var('pagination_base_uri', substr($uri_string, 0, -strlen($match[0])));
 			
 			$this->set_global_var('pagination_base_url', substr($this->EE->functions->create_url($uri_string), 0, -strlen($match[0])));
 		}
@@ -350,6 +352,8 @@ class Mo_variables_ext
 			$this->set_global_var('not_paginated', TRUE);
 			
 			$this->set_global_var('page_offset', 0);
+            
+			$this->set_global_var('pagination_base_uri', $uri_string);
 			
 			$this->set_global_var('pagination_base_url', $this->EE->functions->create_url($uri_string));
 		}
@@ -417,21 +421,21 @@ class Mo_variables_ext
 			'not_yearly_archive' => TRUE,
 		);
 		
-		if (preg_match('#/\d{4}/\d{2}/\d{2}/?$#', $this->uri_string))
+		if (preg_match('#/\d{4}/\d{2}/\d{2}(/P\d+)?/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['daily_archive'] = TRUE;
 			$archive['not_archive'] = FALSE;
 			$archive['not_daily_archive'] = FALSE;
 		}
-		else if (preg_match('#/\d{4}/\d{2}/?$#', $this->uri_string))
+		else if (preg_match('#/\d{4}/\d{2}(/P\d+)?/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['monthly_archive'] = TRUE;
 			$archive['not_archive'] = FALSE;
 			$archive['not_monthly_archive'] = FALSE;
 		}
-		else if (preg_match('#/\d{4}/?$#', $this->uri_string))
+		else if (preg_match('#/\d{4}(/P\d+)?/?$#', $this->uri_string))
 		{
 			$archive['archive'] = TRUE;
 			$archive['yearly_archive'] = TRUE;
