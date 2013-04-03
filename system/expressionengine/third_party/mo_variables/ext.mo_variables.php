@@ -73,7 +73,9 @@ class Mo_variables_ext
 			'reverse_segments' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'segments_from' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'paginated' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			'categorized' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'archive' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
+			'reserved_category_word' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'theme_folder_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			'current_url' => array('r', array('1' => 'yes', '0' => 'no'), '0'),
 			//'member_variables' => array('r', array('1' => 'yes', '0' => 'no'), '0'),//this can cause problems with other addons, scrapped for now
@@ -176,6 +178,15 @@ class Mo_variables_ext
 		$this->set_global_var('page_offset', (isset($match[1])) ? $match[1] : 0);
 	}
 	
+	protected function categorized()
+	{
+		$this->set_global_var('categorized', count($this->EE->uri->segment_array()) > 0 && in_array($this->EE->config->config['reserved_category_word'], $this->EE->uri->segment_array()));
+	}
+
+	protected function reserved_category_word()
+	{
+		$this->set_global_var('reserved_category_word', $this->EE->config->config['reserved_category_word']);
+	}
 	protected function theme_folder_url()
 	{
 		$this->set_global_var('theme_folder_url', $this->EE->config->item('theme_folder_url'));
