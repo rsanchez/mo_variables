@@ -12,22 +12,159 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 
 ## Usage
 
-* Ajax Detect Conditional: {if ajax}, {if not_ajax}
-* Secure SSL/HTTPS Conditional and Variable: {if secure}, {if not_secure}, {secure_site_url}, {insecure_site_url}
-* GET: {get:your_key}
-* GET and POST: {get_post:your_key}
-* POST: {post:your_key}
-* Cookies: {cookie:your_key}
-* Page Tracker: {last_page_visited}, {one_page_ago}, {two_pages_ago}, {three_pages_ago}, {four_pages_ago}, {five_pages_ago}
-* Reverse Segments: {rev_segment_1}, {rev_segment_2}, etc.
-* Segments Starting From X: {segments_from_1}, {segments_from_2}, etc.
-* Pagination Detect Conditional, Page Offset and Pagination Base URL (the current URL sans pagination segment): {if paginated}, {page_offset}, {pagination_base_url}, {pagination_base_uri}
-* Archive Detect Conditional (detects presence of year, month, date in URI): {if archive}, {if yearly_archive}, {if monthly_archive}, {if daily_archive}, {if not_archive}, {if not_yearly_archive}, {if not_monthly_archive}, {if not_daily_archive}
-* Category Detect Conditional (detects presence of reserved category work in URI): {if categorized}
-* Reserved Category Word: {reserved_category_word}
-* Current Page URL: {current_url}, {uri_string}
-* Early-parsed Member Variables (for use as tag parameters): {logged_in_member_id}, {logged_in_group_id}, {logged_in_username}, {logged_in_screen_name}, {logged_in_email}
-* Early-parsed Member Group Conditionals: {if in_group(1|2|3)}, {if not_in_group(1|2|3)}
+#### Ajax Detect Conditional
+
+```
+{if ajax}{/if}
+
+{if not_ajax}{/if}
+```
+
+#### Secure SSL/HTTPS Conditional and Variable
+
+```
+{if secure}{/if}
+
+{if not_secure}{/if}
+
+{secure_site_url}
+
+{insecure_site_url}
+```
+
+#### GET
+
+```
+{get:your_key}
+```
+
+#### GET and POST
+
+```
+{get_post:your_key}
+```
+
+#### POST
+
+```
+{post:your_key}
+```
+
+#### Cookies
+
+```
+{cookie:your_key}
+```
+
+#### Page Tracker
+
+```
+{last_page_visited}
+
+{one_page_ago}
+
+{two_pages_ago}
+
+{three_pages_ago}
+
+{four_pages_ago}
+
+{five_pages_ago}
+```
+
+#### Reverse Segments
+
+```
+{rev_segment_1}
+
+{rev_segment_2}
+
+etc.
+```
+
+#### Segments Starting From X
+
+```
+{segments_from_1}
+
+{segments_from_2}
+
+etc.
+```
+
+#### Pagination Detect Conditional, Page Offset and Pagination Base URL/URI
+
+```
+{if paginated}{/if}
+
+{page_offset}
+
+{pagination_base_url}
+
+{pagination_base_uri}
+```
+
+#### Archive Detect Conditional (detects presence of year, month, date in URI)
+
+```
+{if archive}{/if}
+
+{if yearly_archive}{/if}
+
+{if monthly_archive}{/if}
+
+{if daily_archive}{/if}
+
+{if not_archive}{/if}
+
+{if not_yearly_archive}{/if}
+
+{if not_monthly_archive}{/if}
+
+{if not_daily_archive}{/if}
+```
+
+#### Category Detect Conditional (detects presence of reserved category word in URI)
+
+```
+{if categorized}{/if}
+```
+
+#### Reserved Category Word
+
+```
+{reserved_category_word}
+```
+
+#### Current Page URL
+
+```
+{current_url}
+
+{uri_string}
+```
+
+#### Early-parsed Member Variables (for use as tag parameters)
+
+```
+{logged_in_member_id}
+
+{logged_in_group_id}
+
+{logged_in_username}
+
+{logged_in_screen_name}
+
+{logged_in_email}
+```
+
+#### Early-parsed Member Group Conditionals
+
+```
+{if in_group(1|2|3)}{/if}
+
+{if not_in_group(1|2|3)}{/if}
+```
 
 ## Change Log
 

@@ -21,6 +21,8 @@ class Mo_variables_ext
 		'segments_from',
 		'paginated',
 		'archive',
+		'categorized',
+		'reserved_category_word',
 		'current_url',
 		'member_variables',
 		'member_group_conditionals',
