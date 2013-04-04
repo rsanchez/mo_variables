@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.1.0';
+	public $version = '1.1.1';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -357,6 +357,22 @@ class Mo_variables_ext
 			
 			$this->set_global_var('pagination_base_url', $this->EE->functions->create_url($uri_string));
 		}
+	}
+	
+	/**
+	 * Set the {if categorized} conditional
+	 */
+	protected function categorized()
+	{
+		$this->set_global_var('categorized', in_array($this->EE->config->item('reserved_category_word'), $this->EE->uri->segment_array()));
+	}
+
+	/**
+	 * Set the {reserved_category_word} variable
+	 */
+	protected function reserved_category_word()
+	{
+		$this->set_global_var('reserved_category_word', $this->EE->config->item('reserved_category_word'));
 	}
 	
 	/**
