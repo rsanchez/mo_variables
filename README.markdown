@@ -13,7 +13,7 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 ## Usage
 
 * Ajax Detect Conditional: {if ajax}, {if not_ajax}
-* Secure SSL/HTTPS Conditional and Variable: {if secure}, {if not_secure}, {secure_site_url}
+* Secure SSL/HTTPS Conditional and Variable: {if secure}, {if not_secure}, {secure_site_url}, {insecure_site_url}
 * GET: {get:your_key}
 * GET and POST: {get_post:your_key}
 * POST: {post:your_key}
