@@ -21,13 +21,22 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 * Page Tracker: {last_page_visited}, {one_page_ago}, {two_pages_ago}, {three_pages_ago}, {four_pages_ago}, {five_pages_ago}
 * Reverse Segments: {rev_segment_1}, {rev_segment_2}, etc.
 * Segments Starting From X: {segments_from_1}, {segments_from_2}, etc.
-* Pagination Detect Conditional, Page Offset and Pagination Base URL (the current URL sans pagination segment): {if paginated}, {page_offset}, {pagination_base_url}
+* Pagination Detect Conditional, Page Offset and Pagination Base URL (the current URL sans pagination segment): {if paginated}, {page_offset}, {pagination_base_url}, {pagination_base_uri}
 * Archive Detect Conditional (detects presence of year, month, date in URI): {if archive}, {if yearly_archive}, {if monthly_archive}, {if daily_archive}, {if not_archive}, {if not_yearly_archive}, {if not_monthly_archive}, {if not_daily_archive}
+* Category Detect Conditional (detects presence of reserved category work in URI): {if categorized}
+* Reserved Category Word: {reserved_category_word}
 * Current Page URL: {current_url}, {uri_string}
 * Early-parsed Member Variables (for use as tag parameters): {logged_in_member_id}, {logged_in_group_id}, {logged_in_username}, {logged_in_screen_name}, {logged_in_email}
 * Early-parsed Member Group Conditionals: {if in_group(1|2|3)}, {if not_in_group(1|2|3)}
 
 ## Change Log
+
+#### v1.1.1
+
+-   added {pagination_base_uri} variable
+-   added {if categorized} conditional (thanks @timkelty)
+-   added {reserved_category_word} variable (thanks @timkelty)
+-   added {insecure_site_url} variable (thanks @eedfwChris)
 
 #### v1.1.0
 
