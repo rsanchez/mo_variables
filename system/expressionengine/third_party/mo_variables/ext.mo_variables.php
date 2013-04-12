@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.1.1';
+	public $version = '1.1.2';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -13,9 +13,13 @@ class Mo_variables_ext
 		'ajax',
 		'secure',
 		'get',
+		'defaults_get',
 		'get_post',
+		'defaults_get_post',
 		'post',
+		'defaults_post',
 		'cookie',
+		'defaults_cookie',
 		'page_tracker',
 		'reverse_segments',
 		'segments_from',
@@ -147,19 +151,36 @@ class Mo_variables_ext
 	public function settings()
 	{
 		$setting = array('r', array('1' => 'yes', '0' => 'no'), '0');
+		$defaults_setting = array('t', array('rows' => 5), '');
 		
-		if (function_exists('array_fill_keys'))
-		{
-			$settings = array_fill_keys($this->defaults, $setting);
-		}
-		else
-		{
-			$settings = array();
+		$settings = array();
 			
-			foreach ($this->defaults as $key)
-			{
-				$settings[$key] = $setting;
-			}
+		foreach ($this->defaults as $key)
+		{
+			// defaults settings get a textarea
+			$settings[$key] = strncmp($key, 'defaults_', 9) === 0 ? $defaults_setting : $setting;
+		}
+
+		// hide the defaults fields for get/get_post/post/cookie if not being used
+		if ($this->EE->input->get('C') === 'addons_extensions' && $this->EE->input->get('M') === 'extension_settings')
+		{
+			$this->EE->load->library('javascript');
+
+			$this->EE->javascript->output('
+				$.each(["get", "get_post", "post", "cookie"], function(i, v) {
+					var $input = $("input[name="+v+"]"),
+							setting = $input.filter(":checked").val(),
+							$defaultsRow = $("#defaults_"+v).parents("tr");
+
+					if (setting === "0") {
+						$defaultsRow.hide();
+					}
+
+					$input.change(function() {
+						$defaultsRow.toggle($(this).val() === "1");
+					});
+				});
+			');
 		}
 		
 		return $settings;
@@ -252,6 +273,22 @@ class Mo_variables_ext
 	{
 		if (is_array($key))
 		{
+			// set default values for this array if defaults exist in the settings;
+			if ( ! empty($this->settings['defaults_'.$value]))
+			{
+				$defaults = preg_split('/[\r\n]+/', $this->settings['defaults_'.$value]);
+
+				foreach ($defaults as $default)
+				{
+					$default = preg_split('/\s*:\s*/', $default);
+
+					if ( ! isset($key[$default[0]]))
+					{
+						$key[$default[0]] = isset($default[1]) ? $default[1] : '';
+					}
+				}
+			}
+
 			foreach ($key as $_key => $_value)
 			{
 				$this->set_global_var($_key, $_value, $xss_clean, $embed, $separator, $value);//we use the second param, $value, as the prefix in the case of an array

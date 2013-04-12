@@ -168,6 +168,10 @@ etc.
 
 ## Change Log
 
+#### v1.1.2
+
+-   added ability to set default values for get/get_post/post/cookie variables
+
 #### v1.1.1
 
 -   added {pagination_base_uri} variable
