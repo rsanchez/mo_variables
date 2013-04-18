@@ -56,6 +56,12 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 {cookie:your_key}
 ```
 
+#### Session Flashdata
+
+```
+{flashdata:your_key}
+```
+
 #### Page Tracker
 
 ```
@@ -167,6 +173,10 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.1.3
+
+-   added {flashdata:your_key} variables
 
 #### v1.1.2
 
