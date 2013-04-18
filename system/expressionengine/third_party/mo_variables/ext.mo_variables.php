@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.1.2';
+	public $version = '1.1.3';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -20,6 +20,8 @@ class Mo_variables_ext
 		'defaults_post',
 		'cookie',
 		'defaults_cookie',
+		'flashdata',
+		'defaults_flashdata',
 		'page_tracker',
 		'reverse_segments',
 		'segments_from',
@@ -161,13 +163,13 @@ class Mo_variables_ext
 			$settings[$key] = strncmp($key, 'defaults_', 9) === 0 ? $defaults_setting : $setting;
 		}
 
-		// hide the defaults fields for get/get_post/post/cookie if not being used
+		// hide the defaults fields for get/get_post/post/cookie/flashdata if not being used
 		if ($this->EE->input->get('C') === 'addons_extensions' && $this->EE->input->get('M') === 'extension_settings')
 		{
 			$this->EE->load->library('javascript');
 
 			$this->EE->javascript->output('
-				$.each(["get", "get_post", "post", "cookie"], function(i, v) {
+				$.each(["get", "get_post", "post", "cookie", "flashdata"], function(i, v) {
 					var $input = $("input[name="+v+"]"),
 							setting = $input.filter(":checked").val(),
 							$defaultsRow = $("#defaults_"+v).parents("tr");
@@ -246,7 +248,7 @@ class Mo_variables_ext
 			$final_template = $this->EE->extensions->last_call;
 		}
 		
-		if (preg_match_all('/{(get|post|get_post|cookie):(.*?)}/', $final_template, $matches))
+		if (preg_match_all('/{(get|post|get_post|cookie|flashdata):(.*?)}/', $final_template, $matches))
 		{
 			foreach ($matches[0] as $destroy)
 			{
@@ -357,6 +359,17 @@ class Mo_variables_ext
 	protected function cookie()
 	{
 		$this->set_global_var($_COOKIE, 'cookie', TRUE, TRUE);
+	}
+	
+	
+	/**
+	 * Set variables from the $this->EE->session->flashdata array
+	 * 
+	 * @return void
+	 */
+	protected function flashdata()
+	{
+		$this->set_global_var($this->EE->session->flashdata, 'flashdata', TRUE, TRUE);
 	}
 	
 	
