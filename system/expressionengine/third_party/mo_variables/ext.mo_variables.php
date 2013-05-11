@@ -428,7 +428,7 @@ class Mo_variables_ext
 	}
 	
 	/**
-	 * Set the {current_url} and {uri_string} variables
+	 * Set the {current_url}, {uri_string} and {query_string} variables
 	 * 
 	 * @return void
 	 */
@@ -439,6 +439,23 @@ class Mo_variables_ext
 		$this->set_global_var('current_url', current_url());
 		
 		$this->set_global_var('uri_string', $this->EE->uri->uri_string());
+
+		if (isset($_SERVER['QUERY_STRING']))
+		{
+			$this->set_global_var('query_string', $_SERVER['QUERY_STRING']);
+		}
+		else if (isset($_SERVER['REQUEST_URI']) && FALSE !== ($pos = strpos($_SERVER['REQUEST_URI'], '?')))
+		{
+			$this->set_global_var('query_string', substr($_SERVER['REQUEST_URI'], $pos + 1));
+		}
+		else if ($_GET)
+		{
+			$this->set_global_var('query_string', http_build_query($_GET));
+		}
+		else
+		{
+			$this->set_global_var('query_string', '');
+		}
 	}
 	
 	/**

@@ -148,6 +148,8 @@ etc.
 {current_url}
 
 {uri_string}
+
+{query_string}
 ```
 
 #### Early-parsed Member Variables (for use as tag parameters)
@@ -173,6 +175,10 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.1.4
+
+-   added {query_string} variable
 
 #### v1.1.3
 
