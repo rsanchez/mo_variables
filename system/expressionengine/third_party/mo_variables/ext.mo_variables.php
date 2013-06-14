@@ -383,7 +383,7 @@ class Mo_variables_ext
 		$this->EE->load->helper('url');
 		
 		//fix for structure/freebie and other addons that manipulate Uri::uri_string()
-		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : '/'.$this->EE->uri->uri_string();
+		$uri_string = $this->EE->input->server('PATH_INFO') !== FALSE ? $this->EE->input->server('PATH_INFO') : '/'.$this->uri_string;
 		
 		if (preg_match('#/P(\d+)/?$#', $uri_string, $match))
 		{
@@ -623,7 +623,7 @@ class Mo_variables_ext
 			'total_forum_topics',
 			'total_forum_replies',
 		);
-		var_dump($this->EE->session->userdata);
+		
 		foreach ($variables as $key)
 		{
 			$value = isset($this->EE->session->userdata[$key]) ? $this->EE->session->userdata[$key] : '';
