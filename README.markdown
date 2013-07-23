@@ -147,7 +147,11 @@ etc.
 ```
 {current_url}
 
+{current_url_encoded}
+
 {uri_string}
+
+{uri_string_encoded}
 
 {query_string}
 ```
@@ -175,6 +179,10 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.1.5
+
+-   added {current_url_encoded} and {uri_string_encoded} variables
 
 #### v1.1.4
 
