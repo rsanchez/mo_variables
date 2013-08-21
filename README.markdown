@@ -178,7 +178,19 @@ etc.
 {if not_in_group(1|2|3)}{/if}
 ```
 
+#### Early-parsed Member ID Conditionals
+
+```
+{if has_member_id(1|2|3)}{/if}
+
+{if not_has_member_id(1|2|3)}{/if}
+```
+
 ## Change Log
+
+#### v1.1.6
+
+-	  added {if has_member_id(1|2|3)} and {if not_has_member_id(1|2|3)} conditionals
 
 #### v1.1.5
 

@@ -32,12 +32,14 @@ class Mo_variables_ext
 		'current_url',
 		'member_variables',
 		'member_group_conditionals',
+		'member_id_conditionals',
 	);
 
 	//only these methods will be run more than once,
 	//eg. in embedded templates
 	protected $run_multiple = array(
 		'member_group_conditionals',
+		'member_id_conditionals',
 	);
 	
 	protected $template_data = '';
@@ -676,6 +678,51 @@ class Mo_variables_ext
 				else
 				{
 					$this->set_global_var($key, $in_group);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Set the {if has_member_id(1|2|3)} and {if not_has_member_id(1|2|3)} early-parsed conditionals
+	 * 
+	 * @return void
+	 */
+	protected function member_id_conditionals()
+	{
+		if (preg_match_all('/(not_)?has_member_id\(([\042\047]?)(.*?)\\2\)/', $this->template_data, $matches))
+		{
+			foreach ($matches[3] as $i => $member_ids)
+			{
+				$full_match = $matches[0][$i];
+
+				//so you can use pipe-delimited 1|2|3 global variables
+				if (strpos($member_ids, '{') !== FALSE)
+				{
+					foreach ($this->EE->config->_global_vars as $key => $value)
+					{
+						if (strpos($member_ids, '{'.$key.'}') !== FALSE)
+						{
+							$member_ids = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $member_ids);
+							$full_match = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $full_match);
+						}
+					}
+				}
+				
+				$has_member_id = in_array($this->EE->session->userdata('member_id'), explode('|', $member_ids));
+				
+				$not = $matches[1][$i];
+				
+				// sigh
+				$key = str_replace('|', '\|', $full_match);
+				
+				if ($not)
+				{
+					$this->set_global_var($key, ! $has_member_id);
+				}
+				else
+				{
+					$this->set_global_var($key, $has_member_id);
 				}
 			}
 		}
