@@ -203,6 +203,9 @@ class Mo_variables_ext
 			: $this->EE->uri->uri_string();
 		
 		$this->template_data = $row['template_data'];
+
+		//parse snippets, too
+		$this->template_data = implode("\n", $this->EE->config->_global_vars);
 		
 		//remove settings that are zero and then loop through
 		//the remaining settings
