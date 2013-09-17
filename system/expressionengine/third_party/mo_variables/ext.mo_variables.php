@@ -54,15 +54,11 @@ class Mo_variables_ext
 	public function activate_extension()
 	{
 		//get all the default settings as enabled
-		if (function_exists('array_fill_keys'))
+		$settings = array();
+		
+		foreach ($this->defaults as $key)
 		{
-			$settings = array_fill_keys($this->defaults, '1');
-		}
-		else
-		{
-			$settings = array();
-			
-			foreach ($this->defaults as $key)
+			if (strncmp($key, 'defaults_', 8) !== 0)
 			{
 				$settings[$key] = '1';
 			}
