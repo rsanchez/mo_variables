@@ -628,6 +628,14 @@ class Mo_variables_ext
 			'total_forum_posts',
 			'total_forum_topics',
 			'total_forum_replies',
+			'join_date',
+			'last_visit',
+			'last_activity',
+			'last_entry_date',
+			'last_comment_date',
+			'last_forum_post_date',
+			'timezone',
+			'time_format',
 		);
 		
 		foreach ($variables as $key)
