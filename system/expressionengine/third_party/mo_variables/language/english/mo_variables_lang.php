@@ -23,4 +23,5 @@ $lang = array(
 	'current_url' => 'Add Current URL: {current_url}, {server_name}, {current_url_encoded} {query_string}, {uri_string}, {uri_string_encoded}',
 	'member_variables' => 'Early-parsed Member Variables (for use as tag paramters): {logged_in_member_id}, {logged_in_group_id}, {logged_in_username}, {logged_in_screen_name}, {logged_in_email}',
 	'member_group_conditionals' => 'Early-parsed Member Group Conditionals: {if in_group(1|2|3)}, {if not_in_group(1|2|3)}',
+	'mobile_detect' => 'Early-parsed conditionals for mobile detection: {is_mobile}, {is_not_mobile}, {is_tablet}, {is_not_tablet}, {is_phone}, {is_not_phone}',
 );

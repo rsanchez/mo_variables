@@ -32,6 +32,7 @@ class Mo_variables_ext
 		'current_url',
 		'member_variables',
 		'member_group_conditionals',
+		'mobile_detect'
 	);
 
 	//only these methods will be run more than once,
@@ -644,6 +645,26 @@ class Mo_variables_ext
 			
 			$this->set_global_var('logged_in_'.$key, $value);
 		}
+	}
+
+	/**
+	 * Early-parsed conditionals for mobile detection
+	 * 
+	 * @return void
+	 */
+	protected function mobile_detect()
+	{
+		//Load the Mobile Detect Class
+		$this->EE->load->library( 'Mobile_Detect' );
+		
+		$this->set_global_var('is_tablet', $this->EE->mobile_detect->isTablet());
+		$this->set_global_var('is_not_tablet', ! $this->EE->mobile_detect->isTablet());
+
+		$this->set_global_var('is_mobile', $this->EE->mobile_detect->isMobile());
+		$this->set_global_var('is_not_mobile', ! $this->EE->mobile_detect->isMobile());
+
+		$this->set_global_var('is_phone', $this->EE->mobile_detect->isMobile() && ! $this->EE->mobile_detect->isTablet());
+		$this->set_global_var('is_not_phone', $this->EE->mobile_detect->isMobile() && $this->EE->mobile_detect->isTablet());
 	}
 	
 	/**
