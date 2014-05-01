@@ -664,7 +664,7 @@ class Mo_variables_ext
 		$this->set_global_var('is_not_mobile', ! $this->EE->mobile_detect->isMobile());
 
 		$this->set_global_var('is_phone', $this->EE->mobile_detect->isMobile() && ! $this->EE->mobile_detect->isTablet());
-		$this->set_global_var('is_not_phone', $this->EE->mobile_detect->isMobile() && $this->EE->mobile_detect->isTablet());
+		$this->set_global_var('is_not_phone', ! ($this->EE->mobile_detect->isMobile() && ! $this->EE->mobile_detect->isTablet()));
 	}
 	
 	/**
