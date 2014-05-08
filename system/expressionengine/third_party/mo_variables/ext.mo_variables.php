@@ -33,7 +33,7 @@ class Mo_variables_ext
 		'member_variables',
 		'member_group_conditionals',
 		'member_id_conditionals',
-		'mobile_detect'
+		'mobile_detect',
 	);
 
 	//only these methods will be run more than once,
@@ -59,7 +59,7 @@ class Mo_variables_ext
 		
 		foreach ($this->defaults as $key)
 		{
-			if (strncmp($key, 'defaults_', 8) !== 0)
+			if (strncmp($key, 'defaults_', 9) !== 0)
 			{
 				$settings[$key] = '1';
 			}
