@@ -437,6 +437,8 @@ class Mo_variables_ext
 	{
 		$this->EE->load->helper('url');
 		
+		$this->set_global_var('server_name',  $_SERVER['SERVER_NAME']);
+		
 		$this->set_global_var('current_url', current_url());
 		
 		$this->set_global_var('current_url_encoded', urlencode(current_url()));
@@ -627,6 +629,14 @@ class Mo_variables_ext
 			'total_forum_posts',
 			'total_forum_topics',
 			'total_forum_replies',
+			'join_date',
+			'last_visit',
+			'last_activity',
+			'last_entry_date',
+			'last_comment_date',
+			'last_forum_post_date',
+			'timezone',
+			'time_format',
 		);
 		
 		foreach ($variables as $key)
