@@ -186,11 +186,28 @@ etc.
 {if not_has_member_id(1|2|3)}{/if}
 ```
 
+#### Early-parsed Mobile Detection Conditionals
+
+```
+{if is_mobile}
+
+{if is_not_mobile}
+
+{if is_tablet}
+
+{if is_not_tablet}
+
+{if is_phone}
+
+{if is_not_phone}
+```
+
 ## Change Log
 
 #### v1.1.6
 
 -	  added {if has_member_id(1|2|3)} and {if not_has_member_id(1|2|3)} conditionals
+-	  added {if is_mobile} {if is_not_mobile} {if is_phone} {if is_not_phone} {if is_tablet} {if is_not_tablet} conditionals
 
 #### v1.1.5
 
