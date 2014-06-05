@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.1.6';
+	public $version = '1.1.7';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -206,7 +206,7 @@ class Mo_variables_ext
 		$this->template_data = $row['template_data'];
 
 		//parse snippets, too
-		$this->template_data = implode("\n", $this->EE->config->_global_vars);
+		$this->template_data .= implode("\n", $this->EE->config->_global_vars);
 		
 		//remove settings that are zero and then loop through
 		//the remaining settings
