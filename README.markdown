@@ -12,7 +12,7 @@ For earlier versions of EE, use [version 1.1.7](https://github.com/rsanchez/mo_v
 * Activate extensions and enable the Mo' Variables extension
 * Go to extension settings and enable the Mo' Variables that you want to use
 
-## Upgrading from 1.X
+## Upgrading from 1.1.7 and below
 
 The syntax for [Early-parsed Member Group Conditionals](#early-parsed-member-group-conditionals) and [Early-parsed Member ID Conditionals](#early-parsed-member-id-conditionals) has changed in 1.2. Be sure to update your templates accordingly.
 
