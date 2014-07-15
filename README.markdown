@@ -4,11 +4,17 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 
 ## Installation
 
-***Requires ExpressionEngine 2.4+***
+***Requires ExpressionEngine 2.9+***
+
+For earlier versions of EE, use [version 1.1.7](https://github.com/rsanchez/mo_variables/tree/v1.1.7).
 
 * Copy the /system/expressionengine/third_party/mo_variables/ folder to your /system/expressionengine/third_party/ folder
 * Activate extensions and enable the Mo' Variables extension
 * Go to extension settings and enable the Mo' Variables that you want to use
+
+## Upgrading from 1.1.7 and below
+
+The syntax for [Early-parsed Member Group Conditionals](#early-parsed-member-group-conditionals) and [Early-parsed Member ID Conditionals](#early-parsed-member-id-conditionals) has changed in 1.2. Be sure to update your templates accordingly.
 
 ## Usage
 
@@ -173,17 +179,17 @@ etc.
 #### Early-parsed Member Group Conditionals
 
 ```
-{if in_group(1|2|3)}{/if}
+{if in_group_1_2_3}{/if}
 
-{if not_in_group(1|2|3)}{/if}
+{if not_in_group_1_2_3}{/if}
 ```
 
 #### Early-parsed Member ID Conditionals
 
 ```
-{if has_member_id(1|2|3)}{/if}
+{if has_member_id_1_2_3}{/if}
 
-{if not_has_member_id(1|2|3)}{/if}
+{if not_has_member_id_1_2_3}{/if}
 ```
 
 #### Early-parsed Mobile Detection Conditionals
@@ -203,6 +209,11 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.2.0
+
+-	EE 2.9 compatibility
+-	Changed Member Group and Member ID conditionals syntax
 
 #### v1.1.6
 

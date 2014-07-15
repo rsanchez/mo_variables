@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.1.7';
+	public $version = '1.2.0';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -303,11 +303,7 @@ class Mo_variables_ext
 			$key = ($prefix) ? $prefix.$separator.$key : $key;
 			
 			//this way of handling conditionals works best in the EE template parser
-			if (is_bool($value))
-			{
-				$value = ($value) ? '1' : 0;
-			}
-			else
+			if ( ! is_bool($value))
 			{
 				$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
 			}
@@ -669,37 +665,23 @@ class Mo_variables_ext
 	}
 	
 	/**
-	 * Set the {if in_group(1|2|3)} and {if not_in_group(1|2|3)} early-parsed conditionals
+	 * Set the {if in_group_1_2_3} and {if not_in_group_1_2_3} early-parsed conditionals
 	 * 
 	 * @return void
 	 */
 	protected function member_group_conditionals()
 	{
-		if (preg_match_all('/(not_)?in_group\(([\042\047]?)(.*?)\\2\)/', $this->template_data, $matches))
+		if (preg_match_all('/(not_)?in_group_([\d_]+)/', $this->template_data, $matches))
 		{
-			foreach ($matches[3] as $i => $groups)
+			foreach ($matches[2] as $i => $groups)
 			{
 				$full_match = $matches[0][$i];
 
-				//so you can use pipe-delimited 1|2|3 global variables
-				if (strpos($groups, '{') !== FALSE)
-				{
-					foreach ($this->EE->config->_global_vars as $key => $value)
-					{
-						if (strpos($groups, '{'.$key.'}') !== FALSE)
-						{
-							$groups = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $groups);
-							$full_match = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $full_match);
-						}
-					}
-				}
-				
-				$in_group = in_array($this->EE->session->userdata('group_id'), explode('|', $groups));
+				$in_group = in_array($this->EE->session->userdata('group_id'), explode('_', $groups));
 				
 				$not = $matches[1][$i];
-				
-				// sigh
-				$key = str_replace('|', '\|', $full_match);
+
+				$key = $full_match;
 				
 				if ($not)
 				{
@@ -714,37 +696,23 @@ class Mo_variables_ext
 	}
 	
 	/**
-	 * Set the {if has_member_id(1|2|3)} and {if not_has_member_id(1|2|3)} early-parsed conditionals
+	 * Set the {if has_member_id_1_2_3} and {if not_has_member_id_1_2_3} early-parsed conditionals
 	 * 
 	 * @return void
 	 */
 	protected function member_id_conditionals()
 	{
-		if (preg_match_all('/(not_)?has_member_id\(([\042\047]?)(.*?)\\2\)/', $this->template_data, $matches))
+		if (preg_match_all('/(not_)?has_member_id_([\d_]+)/', $this->template_data, $matches))
 		{
-			foreach ($matches[3] as $i => $member_ids)
+			foreach ($matches[2] as $i => $member_ids)
 			{
 				$full_match = $matches[0][$i];
 
-				//so you can use pipe-delimited 1|2|3 global variables
-				if (strpos($member_ids, '{') !== FALSE)
-				{
-					foreach ($this->EE->config->_global_vars as $key => $value)
-					{
-						if (strpos($member_ids, '{'.$key.'}') !== FALSE)
-						{
-							$member_ids = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $member_ids);
-							$full_match = str_replace('{'.$key.'}', $this->EE->config->_global_vars[$key], $full_match);
-						}
-					}
-				}
-				
-				$has_member_id = in_array($this->EE->session->userdata('member_id'), explode('|', $member_ids));
+				$has_member_id = in_array($this->EE->session->userdata('member_id'), explode('_', $member_ids));
 				
 				$not = $matches[1][$i];
 				
-				// sigh
-				$key = str_replace('|', '\|', $full_match);
+				$key = $full_match;
 				
 				if ($not)
 				{
