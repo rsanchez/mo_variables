@@ -71,17 +71,31 @@ The syntax for [Early-parsed Member Group Conditionals](#early-parsed-member-gro
 #### Page Tracker
 
 ```
+{!-- a full url, e.g. http://yoursite.com/site/foo --}
 {last_page_visited}
+
+{!-- just the URI portion of the url, e.g. site/foo --}
+{last_uri_visited}
 
 {one_page_ago}
 
+{one_uri_ago}
+
 {two_pages_ago}
+
+{two_uris_ago}
 
 {three_pages_ago}
 
+{three_uris_ago}
+
 {four_pages_ago}
 
+{four_uris_ago}
+
 {five_pages_ago}
+
+{five_uris_ago}
 ```
 
 #### Reverse Segments

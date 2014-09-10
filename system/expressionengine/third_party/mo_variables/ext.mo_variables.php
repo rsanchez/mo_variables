@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.2.0';
+	public $version = '1.2.1';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -557,22 +557,36 @@ class Mo_variables_ext
 			'five_pages_ago' => 5,
 		);
 
+		$uri_variables = array(
+			'last_page_visited' => 'last_uri_visited',
+			'one_page_ago' => 'one_uri_ago',
+			'two_pages_ago' => 'two_uris_ago',
+			'three_pages_ago' => 'three_uris_ago',
+			'four_pages_ago' => 'four_uris_ago',
+			'five_pages_ago' => 'five_uris_ago',
+		);
+
 		foreach ($variables as $variable => $tracker)
 		{
+			$uri_key = $uri_variables[$variable];
+
 			if (isset($this->EE->session->tracker[$tracker]))
 			{
 				if ($this->EE->session->tracker[$tracker] === 'index')
 				{
 					$this->set_global_var($variable, $this->EE->functions->fetch_site_index(TRUE));
+					$this->set_global_var($uri_key);
 				}
 				else
 				{
 					$this->set_global_var($variable, $this->EE->functions->create_url($this->EE->session->tracker[$tracker]));
+					$this->set_global_var($uri_key, $this->EE->session->tracker[$tracker]);
 				}
 			}
 			else
 			{
 				$this->set_global_var($variable);
+				$this->set_global_var($uri_key);
 			}
 		}
 	}
