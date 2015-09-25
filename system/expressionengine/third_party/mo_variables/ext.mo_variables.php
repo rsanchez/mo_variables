@@ -434,7 +434,7 @@ class Mo_variables_ext
 	{
 		$this->EE->load->helper('url');
 
-		$this->set_global_var('server_name',  $_SERVER['SERVER_NAME']);
+		$this->set_global_var('server_name', $this->EE->input->server('SERVER_NAME'));
 
 		$this->set_global_var('hostname', gethostname());
 
