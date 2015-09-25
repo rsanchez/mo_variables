@@ -436,6 +436,8 @@ class Mo_variables_ext
 
 		$this->set_global_var('server_name', $this->EE->input->server('SERVER_NAME'));
 
+		$this->set_global_var('http_host', $this->EE->input->server('HTTP_HOST'));
+
 		$this->set_global_var('hostname', gethostname());
 
 		$this->set_global_var('current_url', current_url());
