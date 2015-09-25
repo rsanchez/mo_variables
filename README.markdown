@@ -174,6 +174,12 @@ etc.
 {uri_string_encoded}
 
 {query_string}
+
+{hostname}
+
+{http_host}
+
+{server_name}
 ```
 
 #### Early-parsed Member Variables (for use as tag parameters)
@@ -223,6 +229,16 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.2.2
+
+-	Updated Mobile_Detect.php to version 2.8.17
+-	Added {http_host} and {server_name} to Current URL set of variables
+
+#### v1.2.1
+
+-	Added {hostname} to Current URL set of variables
+-	Added uri variables to Page Tracker variables
 
 #### v1.2.0
 
