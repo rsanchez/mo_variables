@@ -4,7 +4,7 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 
 ## Installation
 
-***Requires ExpressionEngine 2.9+***
+***Requires ExpressionEngine 2.9+ or ExpressionEngine 3.0+***
 
 For earlier versions of EE, use [version 1.1.7](https://github.com/rsanchez/mo_variables/tree/v1.1.7).
 
@@ -229,6 +229,10 @@ etc.
 ```
 
 ## Change Log
+
+#### v1.3.0
+
+-	Added ExpressionEngine 3 compatibility
 
 #### v1.2.2
 
