@@ -47,7 +47,7 @@ class Mo_variables_ext
 
 	public function __construct($settings = array())
 	{
-		$this->EE =& get_instance();
+		$this->EE = get_instance();
 
 		$this->settings = $settings;
 	}
