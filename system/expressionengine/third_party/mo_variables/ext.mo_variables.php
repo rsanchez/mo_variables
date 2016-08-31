@@ -4,7 +4,7 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.3.1';
+	public $version = '1.3.2';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
@@ -305,7 +305,11 @@ class Mo_variables_ext
 			//this way of handling conditionals works best in the EE template parser
 			if ( ! is_bool($value))
 			{
-				$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
+				if (APP_VER > 3) {
+					$value = ($xss_clean) ? ee('Security/XSS')->clean($value) : $value;
+				} else {
+					$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
+				}
 			}
 
 			$this->EE->config->_global_vars[$key] = $value;
