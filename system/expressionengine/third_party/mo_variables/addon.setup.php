@@ -5,7 +5,7 @@ return array(
     'author_url'     => 'https://github.com/rsanchez',
     'name'           => 'Mo\' Variables',
     'description'    => 'Adds many useful global variables and conditionals to use in your templates.',
-    'version'        => '1.3.0',
+    'version'        => '1.3.2',
     'namespace'      => '\\',
     'settings_exist' => TRUE,
 );
