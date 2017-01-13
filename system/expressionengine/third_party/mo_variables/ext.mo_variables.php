@@ -318,21 +318,21 @@ class Mo_variables_ext
 	}
 
 	/**
-     * @param $value
-     * @return mixed
-     */
+	 * @param $value
+	 * @return mixed
+	 */
 	private function clean($value)
-    {
-    	if (APP_VER > 3) {
-			$value = ($xss_clean) ? ee('Security/XSS')->clean($value) : $value;
+	{
+		if (APP_VER > 3) {
+			$value = ee('Security/XSS')->clean($value);
 		} else {
-			$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
+			$value = $this->EE->security->xss_clean($value);
 		}
 
-        $value = str_replace(array('{', '}'), '', $value);
+		$value = str_replace(array('{', '}'), array('&#123;', '&#125;'), $value);
 
-        return $value;
-    }
+		return $value;
+	}
 
 	/**
 	 * Set variables from the $_GET array
