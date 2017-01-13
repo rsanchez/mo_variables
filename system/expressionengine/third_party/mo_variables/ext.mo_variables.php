@@ -330,6 +330,7 @@ class Mo_variables_ext
 		}
 
 		$value = htmlentities($value, ENT_QUOTES, ee()->config->item('charset') ?: 'UTF-8');
+		$value = str_replace(array('{', '}'), array('&#123;', '&#125;'), $value);
 
 		return $value;
 	}
