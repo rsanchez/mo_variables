@@ -329,7 +329,7 @@ class Mo_variables_ext
 			$value = $this->EE->security->xss_clean($value);
 		}
 
-		$value = str_replace(array('{', '}'), array('&#123;', '&#125;'), $value);
+		$value = htmlentities($value, ENT_QUOTES, ee()->config->item('charset') ?: 'UTF-8');
 
 		return $value;
 	}
