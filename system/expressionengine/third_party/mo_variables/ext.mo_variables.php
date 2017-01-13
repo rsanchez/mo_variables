@@ -305,11 +305,7 @@ class Mo_variables_ext
 			//this way of handling conditionals works best in the EE template parser
 			if ( ! is_bool($value))
 			{
-				if (APP_VER > 3) {
-					$value = ($xss_clean) ? ee('Security/XSS')->clean($value) : $value;
-				} else {
-					$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
-				}
+				$value = ($xss_clean) ? $this->clean($value) : $value;
 			}
 
 			$this->EE->config->_global_vars[$key] = $value;
@@ -320,6 +316,23 @@ class Mo_variables_ext
 			}
 		}
 	}
+
+	/**
+     * @param $value
+     * @return mixed
+     */
+	private function clean($value)
+    {
+    	if (APP_VER > 3) {
+			$value = ($xss_clean) ? ee('Security/XSS')->clean($value) : $value;
+		} else {
+			$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
+		}
+
+        $value = str_replace(array('{', '}'), '', $value);
+
+        return $value;
+    }
 
 	/**
 	 * Set variables from the $_GET array
