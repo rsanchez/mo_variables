@@ -305,11 +305,7 @@ class Mo_variables_ext
 			//this way of handling conditionals works best in the EE template parser
 			if ( ! is_bool($value))
 			{
-				if (APP_VER > 3) {
-					$value = ($xss_clean) ? ee('Security/XSS')->clean($value) : $value;
-				} else {
-					$value = ($xss_clean) ? $this->EE->security->xss_clean($value) : $value;
-				}
+				$value = ($xss_clean) ? $this->clean($value) : $value;
 			}
 
 			$this->EE->config->_global_vars[$key] = $value;
@@ -319,6 +315,24 @@ class Mo_variables_ext
 				$this->EE->config->_global_vars['embed:'.$key] = $value;
 			}
 		}
+	}
+
+	/**
+	 * @param $value
+	 * @return mixed
+	 */
+	private function clean($value)
+	{
+		if (APP_VER > 3) {
+			$value = ee('Security/XSS')->clean($value);
+		} else {
+			$value = $this->EE->security->xss_clean($value);
+		}
+
+		$value = htmlentities($value, ENT_QUOTES, ee()->config->item('charset') ?: 'UTF-8');
+		$value = str_replace(array('{', '}'), array('&#123;', '&#125;'), $value);
+
+		return $value;
 	}
 
 	/**
