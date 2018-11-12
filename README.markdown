@@ -4,10 +4,20 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 
 ## Installation
 
-***Requires ExpressionEngine 2.9+ or ExpressionEngine 3.0+***
+***Compatibility***
+
+* ExpressionEngine 2.9+
+* ExpressionEngine 3.0+
+* ExpressionEngine 4.0+
 
 For earlier versions of EE, use [version 1.1.7](https://github.com/rsanchez/mo_variables/tree/v1.1.7).
 
+***Installation for ExpressionEngine 3.0+***
+* Copy the /system/expressionengine/third_party/mo_variables/ folder to your /system/user/addons/ folder
+* Activate extensions and enable the Mo' Variables extension
+* Go to extension settings and enable the Mo' Variables that you want to use
+
+***Installation for _legacy_ ExpressionEngine 2.x***
 * Copy the /system/expressionengine/third_party/mo_variables/ folder to your /system/expressionengine/third_party/ folder
 * Activate extensions and enable the Mo' Variables extension
 * Go to extension settings and enable the Mo' Variables that you want to use
