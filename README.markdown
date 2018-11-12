@@ -12,6 +12,12 @@ Adds many useful early-parsed global variables and conditionals to use in your t
 
 For earlier versions of EE, use [version 1.1.7](https://github.com/rsanchez/mo_variables/tree/v1.1.7).
 
+***Installation for ExpressionEngine 3.0+***
+* Copy the /system/expressionengine/third_party/mo_variables/ folder to your /system/user/addons/ folder
+* Activate extensions and enable the Mo' Variables extension
+* Go to extension settings and enable the Mo' Variables that you want to use
+
+***Installation for _legacy_ ExpressionEngine 2.x***
 * Copy the /system/expressionengine/third_party/mo_variables/ folder to your /system/expressionengine/third_party/ folder
 * Activate extensions and enable the Mo' Variables extension
 * Go to extension settings and enable the Mo' Variables that you want to use
