@@ -470,19 +470,19 @@ class Mo_variables_ext
 
 		if (isset($_SERVER['QUERY_STRING']))
 		{
-			$this->set_global_var('query_string', $_SERVER['QUERY_STRING']);
+			$this->set_global_var('query_string', $_SERVER['QUERY_STRING'],TRUE);
 		}
 		else if (isset($_SERVER['REQUEST_URI']) && FALSE !== ($pos = strpos($_SERVER['REQUEST_URI'], '?')))
 		{
-			$this->set_global_var('query_string', substr($_SERVER['REQUEST_URI'], $pos + 1));
+			$this->set_global_var('query_string', substr($_SERVER['REQUEST_URI'], $pos + 1),TRUE);
 		}
 		else if ($_GET)
 		{
-			$this->set_global_var('query_string', http_build_query($_GET));
+			$this->set_global_var('query_string', http_build_query($_GET),TRUE);
 		}
 		else
 		{
-			$this->set_global_var('query_string', '');
+			$this->set_global_var('query_string', '',TRUE);
 		}
 	}
 
