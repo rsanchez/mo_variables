@@ -4,10 +4,12 @@ class Mo_variables_ext
 {
 	public $settings = array();
 	public $name = 'Mo\' Variables';
-	public $version = '1.3.2';
+	public $version = '1.4.0';
 	public $description = 'Adds many useful global variables and conditionals to use in your templates.';
 	public $settings_exist = 'y';
 	public $docs_url = 'https://git.io/mo';
+    public $EE;
+    public $uri_string;
 
 	protected $defaults = array(
 		'ajax',
@@ -468,19 +470,19 @@ class Mo_variables_ext
 
 		if (isset($_SERVER['QUERY_STRING']))
 		{
-			$this->set_global_var('query_string', $_SERVER['QUERY_STRING'], TRUE);
+			$this->set_global_var('query_string', $_SERVER['QUERY_STRING']);
 		}
 		else if (isset($_SERVER['REQUEST_URI']) && FALSE !== ($pos = strpos($_SERVER['REQUEST_URI'], '?')))
 		{
-			$this->set_global_var('query_string', substr($_SERVER['REQUEST_URI'], $pos + 1), TRUE);
+			$this->set_global_var('query_string', substr($_SERVER['REQUEST_URI'], $pos + 1));
 		}
 		else if ($_GET)
 		{
-			$this->set_global_var('query_string', http_build_query($_GET), TRUE);
+			$this->set_global_var('query_string', http_build_query($_GET));
 		}
 		else
 		{
-			$this->set_global_var('query_string', '', TRUE);
+			$this->set_global_var('query_string', '');
 		}
 	}
 
