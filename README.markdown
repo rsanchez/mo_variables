@@ -247,6 +247,10 @@ etc.
 
 ## Change Log
 
+#### v1.4.0
+-       Updates to remove php8 deprecation warnings
+-       EE7 compatibility
+
 #### v1.3.0
 
 -	Added ExpressionEngine 3 compatibility
