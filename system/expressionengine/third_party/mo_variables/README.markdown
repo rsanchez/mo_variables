@@ -247,6 +247,12 @@ etc.
 
 ## Change Log
 
+#### v1.4.0
+
+-	Updated mobile_detect library to latest version
+- 	Changed mobile_detect library calling to support use of composer to retrieve library, and make future updates easier
+-	Added version requirement for php8+
+
 #### v1.3.0
 
 -	Added ExpressionEngine 3 compatibility

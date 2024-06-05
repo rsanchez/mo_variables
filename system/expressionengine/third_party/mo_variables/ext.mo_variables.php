@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once PATH_THIRD . "mo_variables/vendor/autoload.php";
+use \Detection\MobileDetect as Mobile_Detect;
+
 class Mo_variables_ext
 {
 	public $settings = array();
@@ -690,16 +693,17 @@ class Mo_variables_ext
 	protected function mobile_detect()
 	{
 		//Load the Mobile Detect Class
-		$this->EE->load->library( 'Mobile_Detect' );
+		// $this->EE->load->library( 'Mobile_Detect' );
+		$mobile_detect = new Mobile_Detect();
 
-		$this->set_global_var('is_tablet', $this->EE->mobile_detect->isTablet());
-		$this->set_global_var('is_not_tablet', ! $this->EE->mobile_detect->isTablet());
+		$this->set_global_var('is_tablet', $mobile_detect->isTablet());
+		$this->set_global_var('is_not_tablet', ! $mobile_detect->isTablet());
 
-		$this->set_global_var('is_mobile', $this->EE->mobile_detect->isMobile());
-		$this->set_global_var('is_not_mobile', ! $this->EE->mobile_detect->isMobile());
+		$this->set_global_var('is_mobile', $mobile_detect->isMobile());
+		$this->set_global_var('is_not_mobile', ! $mobile_detect->isMobile());
 
-		$this->set_global_var('is_phone', $this->EE->mobile_detect->isMobile() && ! $this->EE->mobile_detect->isTablet());
-		$this->set_global_var('is_not_phone', ! ($this->EE->mobile_detect->isMobile() && ! $this->EE->mobile_detect->isTablet()));
+		$this->set_global_var('is_phone', $mobile_detect->isMobile() && ! $mobile_detect->isTablet());
+		$this->set_global_var('is_not_phone', ! ($mobile_detect->isMobile() && ! $mobile_detect->isTablet()));
 	}
 
 	/**
