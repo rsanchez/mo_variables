@@ -8,4 +8,7 @@ return array(
     'version'        => '1.4.0',
     'namespace'      => '\\',
     'settings_exist' => TRUE,
+    'requires'       => [
+        'php'   => ">=8.0.*"
+    ],
 );
