@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once PATH_THIRD . "mo_variables/vendor/autoload.php";
 use \Detection\MobileDetect as Mobile_Detect;
 
 class Mo_variables_ext
